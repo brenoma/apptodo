@@ -2,7 +2,8 @@ let listElement = document.querySelector('#app ul');
 let inputElement = document.querySelector('#app input');
 let buttonElement = document.querySelector('#app button');
 
-let todos = [];
+
+let todos = JSON.parse(localStorage.getItem('list_todos')) || [];
 
 function renderTodos() {
     listElement.innerHTML = '';
@@ -28,15 +29,23 @@ function renderTodos() {
     }
 }
 
+renderTodos();
+
 buttonElement.onclick = function addTodo() {
     let todoText = inputElement.value;
 
     todos.push(todoText);
     inputElement.value = '';
     renderTodos();
+    saveToStorage();
 }
 
 function deleteTodo(pos) {
     todos.splice(pos, 1);
     renderTodos();
+    saveToStorage();
+}
+
+function saveToStorage() {
+    localStorage.setItem('list_todos', JSON.stringify(todos));
 }
